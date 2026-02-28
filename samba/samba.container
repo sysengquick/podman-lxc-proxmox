@@ -1,0 +1,24 @@
+[Unit]
+Description=samba
+
+[Container]
+ContainerName=samba
+Image=docker.io/dockurr/samba
+
+Environment=USER=samba
+Environment=PASS=supersecret
+
+PublishPort=445:445
+
+# samba config file
+Volume=%h/containers/samba/smb.conf:/etc/samba/smb.conf:ro
+
+# samba share volume
+Volume=/tank/nas:/tank/nas
+
+[Service]
+Restart=always
+RestartSec=30
+
+[Install]
+WantedBy=default.target

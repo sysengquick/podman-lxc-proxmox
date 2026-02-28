@@ -1,0 +1,4 @@
+root:100000:200000
+root:1000:1
+# you can also erase the non-root user entry if you're not using it
+podman:300000:100000

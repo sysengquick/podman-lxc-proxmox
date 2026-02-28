@@ -1,0 +1,38 @@
+---
+# enable traefik access logs
+accessLog: {}
+
+# enable API on port 8080
+api:
+  insecure: true
+
+# setup letsencrypt acme cert authority
+certificatesResolvers:
+  le:
+    acme:
+      email: john.doe@example.com
+      storage: /letsencrypt/acme.json
+      tlsChallenge: {}
+
+      # staging lets encrypt server for testing
+      # caServer: https://acme-staging-v02.api.letsencrypt.org/directory
+
+# add https and pveproxy/squid ports
+entryPoints:
+  websecure:
+    address: ":443"
+  squid:
+    address: ":3128"
+
+# setup log levels
+log:
+  level: INFO
+  # level: DEBUG
+
+# configure file and docker provider
+providers:
+  file:
+    filename: /etc/traefik/custom.yml
+    watch: true
+  docker:
+    exposedByDefault: false

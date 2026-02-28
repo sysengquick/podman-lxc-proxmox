@@ -1,0 +1,22 @@
+[Unit]
+Description=Traefik Reverse Proxy
+
+[Container]
+ContainerName=traefik
+Image=docker.io/traefik:v3
+
+PublishPort=443:443
+PublishPort=3128:3128
+PublishPort=8080:8080
+
+Volume=%h/containers/traefik/traefik.yml:/etc/traefik/traefik.yml:ro
+Volume=%h/containers/traefik/custom.yml:/etc/traefik/custom.yml:ro
+Volume=%h/containers/traefik/letsencrypt:/letsencrypt
+Volume=%t/podman/podman.sock:/var/run/docker.sock:ro
+
+[Service]
+Restart=always
+RestartSec=30
+
+[Install]
+WantedBy=default.target

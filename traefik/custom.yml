@@ -1,0 +1,40 @@
+---
+http:
+  middlewares:
+    proxmox:
+      ipAllowList:
+        sourceRange:
+          - 192.168.1.0/24
+
+  routers:
+    proxmox:
+      entryPoints: [websecure]
+      middlewares: [proxmox]
+      rule: "Host(`proxmox.local`)"
+      service: proxmox
+      tls:
+        certResolver: le
+
+  services:
+    proxmox:
+      loadBalancer:
+        servers:
+          - url: "https://192.168.1.2:8006"
+        serversTransport: noverify
+
+  serversTransports:
+    noverify:
+      insecureSkipVerify: true
+
+tcp:
+  routers:
+    proxmox-squid:
+      entryPoints: [squid]
+      rule: "HostSNI(`*`)"
+      service: proxmox-squid
+
+  services:
+    proxmox-squid:
+      loadBalancer:
+        servers:
+          - address: "192.168.1.2:3128"
