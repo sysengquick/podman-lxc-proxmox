@@ -8,7 +8,7 @@ Image=docker.io/dockurr/samba
 Environment=USER=samba
 Environment=PASS=supersecret
 
-PublishPort=445:445
+Network=host
 
 # samba config file
 Volume=%h/containers/samba/smb.conf:/etc/samba/smb.conf:ro
