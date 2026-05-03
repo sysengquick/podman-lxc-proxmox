@@ -5,7 +5,7 @@ Description=Plex Media Server
 ContainerName=plex
 Image=lscr.io/linuxserver/plex:latest
 
-PublishPort=32400:32400
+Network=host
 AddDevice=/dev/dri:/dev/dri
 
 Environment=TZ=America/Indiana/Indianapolis
@@ -18,10 +18,9 @@ Volume=/tank/plex:/config
 Volume=/tank/nas/plex:/media
 
 # shared memory transcode path
-Volume=/dev/shm/plex:/transcode
+Mount=type=tmpfs,destination=/transcode,tmpfs-size=1G
 
 [Service]
-ExecStartPre=mkdir -p /dev/shm/plex
 Restart=always
 RestartSec=30
 
